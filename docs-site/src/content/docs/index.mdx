@@ -1,0 +1,58 @@
+---
+title: MUF Engine Docs
+description: WebRTC live streaming SDK for the web — drop-in host / viewer / cohost flows.
+template: splash
+hero:
+  tagline: WebRTC live streaming SDK — host, viewer, and cohost flows in the browser. Self-hostable. TikTok-class UX out of the box.
+  actions:
+    - text: Quickstart (10 min)
+      link: /quickstart/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/MufConnect/muf-engine
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## What MUF Engine gives you
+
+<CardGrid stagger>
+  <Card title="Three integration depths" icon="puzzle">
+    **L1 — Prebuilt page.** Drop a script tag, get the full broadcaster.html / viewer.html. CSS variables for theming.
+
+    **L2 — Component library.** React / Web Components. Compose your own layout.
+
+    **L3 — Raw SDK.** `MufLiveManager` + `MufCore`. Build whatever you want.
+  </Card>
+  <Card title="One product, one pricing" icon="rocket">
+    Per-MAU SaaS. Same price across L1/L2/L3. No surprise tiers. Self-host on your own infra at the same rate, or use our managed service.
+  </Card>
+  <Card title="What's in the box" icon="laptop">
+    - Multi-host live streaming (up to 4 broadcasters per room)
+    - Per-host independent chat + viewer count
+    - 30-second cohost invitations (host invites viewer / viewer requests cohost)
+    - Recording to Cloudflare R2
+    - End-to-end TypeScript types
+  </Card>
+  <Card title="Comparison" icon="information">
+    Closer to **Agora / LiveKit / Daily** (CPaaS infrastructure) than **TikTok / Twitch** (consumer apps that BUILD on infrastructure). MUF gives you the building blocks; you build the app.
+  </Card>
+</CardGrid>
+
+## Get started
+
+The fastest path:
+
+1. [Quickstart](/quickstart/) — host + viewer running in your browser in 10 minutes.
+2. [Concepts](/concepts/) — rooms, peers, broadcaster vs viewer, audience partitioning.
+3. [Token minting](/guides/token-minting/) — sign JWTs in your backend (Node / Python / Go examples).
+4. [Self-hosting](/guides/self-hosting/) — `docker compose up` on your own VPS.
+
+## Migrating from another CPaaS?
+
+- [From Agora](/migration/from-agora/)
+- [From Twilio Programmable Video (sunset)](/migration/from-twilio/)
+
+Both guides include concept-mapping tables (Agora "host" → MUF "broadcaster", etc.) so you can port your integration in days, not weeks.

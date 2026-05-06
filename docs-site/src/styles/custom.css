@@ -1,0 +1,7 @@
+/* Slight brand customization — keeps Starlight's defaults but tints the
+ * accent toward MUF Engine's cyan. Override more here if needed. */
+:root {
+    --sl-color-accent-low:  #042f3a;
+    --sl-color-accent:      #22d3ee;
+    --sl-color-accent-high: #67e8f9;
+}

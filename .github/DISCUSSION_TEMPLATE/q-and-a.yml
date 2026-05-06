@@ -1,0 +1,23 @@
+title: '[Question] '
+labels: ['question']
+body:
+  - type: textarea
+    attributes:
+      label: What are you trying to do?
+      description: Describe the integration goal in 1-2 sentences.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What have you tried?
+      description: Code snippets, error messages, links to docs you've already read.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: SDK version
+      placeholder: '@muf/live-sdk 0.1.0-alpha.0'
+  - type: input
+    attributes:
+      label: Browser + OS
+      placeholder: 'Chrome 130 on macOS 14'
