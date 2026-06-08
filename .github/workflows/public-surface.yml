@@ -1,0 +1,25 @@
+name: Public surface guard
+
+# Fails the build if any tracked file in this public, customer-facing repo
+# leaks an internal technology name, a competitor brand, an AI-brand, or the
+# production server IP. Keeps the public surface client-professional.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-surface-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: No tech/competitor leaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/check-public-surface.sh
