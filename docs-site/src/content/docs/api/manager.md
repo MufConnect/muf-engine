@@ -6,7 +6,7 @@ description: High-level API for host / viewer / cohost flows.
 The main class. One instance per page; manages a single live session.
 
 ```ts
-import { MufLiveManager, LiveEvent } from '@muf/live-sdk';
+import { MufLiveManager, LiveEvent } from '@mufconnect/live-sdk';
 
 const manager = new MufLiveManager({
     orgId:       'your-org-id',     // omit for standalone deployments
@@ -153,7 +153,7 @@ Stops recording. Triggers a webhook to your backend with the R2 URL
 ### `sendChat(text): void`
 
 Publishes a chat message to the current audience scope. Validated +
-rate-limited by the chat-engine.
+rate-limited by the chat service.
 
 ### `getPeerIdentities(): Array<{ peerId, displayName, avatarUrl, role }>`
 

@@ -6,7 +6,7 @@ Copyright © 2026 MUF Engine. All rights reserved.
 
 This repository is the **public documentation + examples + support hub** for the MUF Engine product.
 
-It does NOT contain the MUF Engine server source code (signaling-server, media-sfu, chat-engine, app). That code lives in a private repo and is licensed separately to paying customers.
+It does NOT contain the MUF Engine server source code (the signaling, media, chat, and application services). That code lives in a private repo and is licensed separately to paying customers.
 
 ## License of the contents of this repo
 
@@ -38,11 +38,11 @@ Code in the `examples/` directory is licensed under **MIT** for the example code
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
 
-The MIT terms cover the example glue code. They do NOT extend to the MUF Engine SDK (`@muf/live-sdk`) or the engine server, which remain proprietary.
+The MIT terms cover the example glue code. They do NOT extend to the MUF Engine SDK (`@mufconnect/live-sdk`) or the engine server, which remain proprietary.
 
 ### 3. Engine SDK + server (referenced but not in this repo)
 
-The MUF Engine JavaScript SDK (`@muf/live-sdk`) and the engine server services are **proprietary**. Commercial use requires a license. Contact sales@mufconnect.com.
+The MUF Engine JavaScript SDK (`@mufconnect/live-sdk`) and the engine server services are **proprietary**. Commercial use requires a license. Contact sales@mufconnect.com.
 
 ## Trademarks
 

@@ -4,7 +4,7 @@ description: Event types emitted by MufLiveManager.
 ---
 
 ```ts
-import { LiveEvent } from '@muf/live-sdk';
+import { LiveEvent } from '@mufconnect/live-sdk';
 
 manager.on(LiveEvent.VIEWER_COUNT, ({ count }) => { ... });
 ```

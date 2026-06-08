@@ -144,9 +144,9 @@ Migrate before the next major.
 
 These are intentionally NOT customer-extensible:
 
-- Video grid layout (mediasoup-driven, fixed)
+- Video grid layout (media-pipeline-driven, fixed)
 - Mic / cam / flip / mirror / pause-LIVE controls
-- Chat message rendering (chat-engine consistency)
+- Chat message rendering (kept consistent by the platform)
 - Permission recovery modal
 - 3-2-1 countdown
 
