@@ -8,6 +8,9 @@ require shipping `JWT_SECRET` to the browser. Your backend signs
 JWTs with the shared secret, then your client requests them through
 your own auth-protected endpoint.
 
+You can mint tokens in any language; full examples in Node, Python, and
+Go follow below.
+
 ## What goes in the token
 
 ```ts
@@ -25,8 +28,8 @@ your own auth-protected endpoint.
 ```
 
 The `JWT_SECRET` env var must be the SAME on:
-- The signaling-server (validates incoming tokens)
-- The chat-engine (validates incoming Socket.io connections)
+- The signaling service (validates incoming tokens)
+- The chat service (validates incoming real-time chat connections)
 - Your token-minting backend (signs them)
 
 Use a strong random value (≥48 bytes recommended):
@@ -49,7 +52,7 @@ broadcaster's audience the peer belongs to.
   absent.
 
 If the broadcaster's WS `peer_id` doesn't match their JWT's
-`host_peer_id`, the chat-engine partitions them into different
+`host_peer_id`, the chat service partitions them into different
 scopes — chat appears broken (you can chat with yourself but no
 viewers see it). Always align them.
 
@@ -131,22 +134,17 @@ app.post('/api/cohost-token', async (req, res) => {
 });
 ```
 
-### Python (FastAPI)
+### Python
 
 ```python
 import os, time, uuid
-from fastapi import FastAPI, Depends, HTTPException
-from pydantic import BaseModel
-import jwt
+import jwt   # PyJWT
 
-app = FastAPI()
 JWT_SECRET = os.environ['JWT_SECRET']
 
-class HostTokenRequest(BaseModel):
-    pass
-
-@app.post('/api/host-token')
-async def host_token(user = Depends(authenticate_user)):
+# Wire this into whatever web framework you use — it's just a function
+# that authenticates your user, then signs and returns a room token.
+def mint_host_token(user):
     room_id      = str(uuid.uuid4())
     host_peer_id = str(uuid.uuid4())
 
@@ -219,12 +217,12 @@ func hostTokenHandler(w http.ResponseWriter, r *http.Request) {
 
 ## Wiring the SDK to your token endpoint
 
-In tenant-aware mode (using our App API), the SDK calls
+In tenant-aware mode (using our application API), the SDK calls
 `/create_room` and `/viewer-token` directly. In standalone or custom
 flows, override via `setTokenProvider`:
 
 ```ts
-import { MufLiveManager, MufCore } from '@muf/live-sdk';
+import { MufLiveManager, MufCore } from '@mufconnect/live-sdk';
 
 const manager = new MufLiveManager({
     displayName: currentUser.name,

@@ -1,7 +1,7 @@
 // MUF Sample Integration — token-minting backend
 //
 // One small Express app that signs JWTs against the same JWT_SECRET
-// the MUF Engine signaling-server uses. The frontend calls these
+// the MUF Engine signaling service uses. The frontend calls these
 // endpoints AFTER authenticating the user; the engine never sees the
 // secret.
 //

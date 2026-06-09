@@ -3,7 +3,7 @@ title: MUF Engine Docs
 description: WebRTC live streaming SDK for the web — drop-in host / viewer / cohost flows.
 template: splash
 hero:
-  tagline: WebRTC live streaming SDK — host, viewer, and cohost flows in the browser. Self-hostable. TikTok-class UX out of the box.
+  tagline: WebRTC live streaming SDK — host, viewer, and cohost flows in the browser. Self-hostable. Polished, best-in-class live UX out of the box.
   actions:
     - text: Quickstart (10 min)
       link: /quickstart/
@@ -36,8 +36,8 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
     - Recording to Cloudflare R2
     - End-to-end TypeScript types
   </Card>
-  <Card title="Comparison" icon="information">
-    Closer to **Agora / LiveKit / Daily** (CPaaS infrastructure) than **TikTok / Twitch** (consumer apps that BUILD on infrastructure). MUF gives you the building blocks; you build the app.
+  <Card title="What MUF is" icon="information">
+    MUF is real-time media infrastructure — the building blocks for live video, not a finished consumer app. You build your product; we handle the streaming, signaling, and chat plumbing underneath.
   </Card>
 </CardGrid>
 
@@ -48,11 +48,4 @@ The fastest path:
 1. [Quickstart](/quickstart/) — host + viewer running in your browser in 10 minutes.
 2. [Concepts](/concepts/) — rooms, peers, broadcaster vs viewer, audience partitioning.
 3. [Token minting](/guides/token-minting/) — sign JWTs in your backend (Node / Python / Go examples).
-4. [Self-hosting](/guides/self-hosting/) — `docker compose up` on your own VPS.
-
-## Migrating from another CPaaS?
-
-- [From Agora](/migration/from-agora/)
-- [From Twilio Programmable Video (sunset)](/migration/from-twilio/)
-
-Both guides include concept-mapping tables (Agora "host" → MUF "broadcaster", etc.) so you can port your integration in days, not weeks.
+4. [Slot system](/guides/slot-system/) — plug your own widgets into the prebuilt UI.

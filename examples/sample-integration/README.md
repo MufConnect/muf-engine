@@ -6,7 +6,7 @@ MUF Engine SDK end-to-end:
 - **Backend** (Node + Express): mints JWTs on demand from your
   authenticated user records.
 - **Frontend** (Vite + React): host page + viewer page using
-  `@muf/live-sdk` with TypeScript.
+  `@mufconnect/live-sdk` with TypeScript.
 
 Together they demonstrate the standalone-deployment flow — your own
 backend signs tokens against the shared `JWT_SECRET`, MUF Engine
@@ -25,7 +25,7 @@ services accept them.
         ▼                                     ▼
 ┌────────────────────────────────────────────────────────┐
 │  MUF Engine self-hosted stack                          │
-│  (signaling :3001, media-sfu :3002, chat :3003)        │
+│  (signaling, media, and chat services)                 │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -33,13 +33,13 @@ services accept them.
 
 ### 1. Bring up MUF Engine
 
-In a separate terminal, follow the [self-hosting quickstart](https://docs.mufconnect.com/guides/self-hosting/). The engine source is in a private repo — email **sales@mufconnect.com** for access. Once granted:
+In a separate terminal, follow the [Quickstart](https://docs.mufconnect.com/quickstart/). The engine source is in a private repo — email **sales@mufconnect.com** for access. Once granted:
 
 ```bash
 git clone https://github.com/MufConnect/muf-logic-engine
 cd muf-logic-engine
 cp .env.example .env
-# Edit .env — set JWT_SECRET, POSTGRES_PASSWORD, MEDIASOUP_ANNOUNCED_IP=127.0.0.1
+# Edit .env — set your JWT signing secret and media announce IP per the .env.example
 docker compose up -d
 ```
 
@@ -79,7 +79,7 @@ Open `http://localhost:5173` in your browser:
   sees `JWT_SECRET`. It calls `/api/host-token` after authenticating
   the user (here mocked, in production replace with your auth).
 - **Standalone mode.** No org credentials sent to the engine. The
-  signaling-server runs with `APP_API_URL=""` (or any unset value).
+  the signaling service runs with `APP_API_URL=""` (or any unset value).
 - **Per-host audience partitioning (L.9).** The host token's
   `host_peer_id` is server-generated; the share link includes it as
   `?host=PEER_ID`; viewers route to the right audience automatically.
@@ -106,4 +106,4 @@ Open `http://localhost:5173` in your browser:
   `frontend/src/MufStream.tsx` into your React tree.
 - **Different backend stack**: see the
   [token-minting guide](https://docs.mufconnect.com/guides/token-minting/)
-  for Python (FastAPI) and Go examples.
+  for Python and Go examples.

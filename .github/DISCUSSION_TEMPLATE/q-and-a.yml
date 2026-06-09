@@ -16,7 +16,7 @@ body:
   - type: input
     attributes:
       label: SDK version
-      placeholder: '@muf/live-sdk 0.1.0-alpha.0'
+      placeholder: '@mufconnect/live-sdk 0.1.0-alpha.0'
   - type: input
     attributes:
       label: Browser + OS

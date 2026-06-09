@@ -38,10 +38,8 @@ export default defineConfig({
                 {
                     label: 'Guides',
                     items: [
-                        { label: 'Token minting',          slug: 'guides/token-minting' },
-                        { label: 'Self-hosting (Docker)',  slug: 'guides/self-hosting' },
-                        { label: 'Standalone deployment',  slug: 'guides/standalone-deployment' },
-                        { label: 'Slot system',            slug: 'guides/slot-system' },
+                        { label: 'Token minting', slug: 'guides/token-minting' },
+                        { label: 'Slot system',   slug: 'guides/slot-system' },
                     ],
                 },
                 {
@@ -50,13 +48,6 @@ export default defineConfig({
                         { label: 'MufLiveManager', slug: 'api/manager' },
                         { label: 'LiveEvent',      slug: 'api/events' },
                         { label: 'Slot names',     slug: 'api/slots' },
-                    ],
-                },
-                {
-                    label: 'Migration',
-                    items: [
-                        { label: 'From Agora',  slug: 'migration/from-agora' },
-                        { label: 'From Twilio', slug: 'migration/from-twilio' },
                     ],
                 },
             ],

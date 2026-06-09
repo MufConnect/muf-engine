@@ -20,12 +20,12 @@ Open <http://127.0.0.1:5173>. Click **Start as Host** in window A; copy the invi
 Override the signaling endpoint without editing source:
 
 ```bash
-VITE_SIGNALING_HOST=wss://signal.your-domain.com:3001/ws \
-VITE_API_BASE_URL=https://signal.your-domain.com:3001 \
+VITE_SIGNALING_HOST=wss://signal.your-domain.com/ws \
+VITE_API_BASE_URL=https://signal.your-domain.com \
 npm run dev
 ```
 
-Defaults to `ws://localhost:3001/ws` + `http://localhost:3001`.
+Defaults to your `signal.your-domain.com` endpoint over WSS + HTTPS.
 
 ## What this demonstrates
 

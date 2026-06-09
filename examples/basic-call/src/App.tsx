@@ -1,5 +1,5 @@
 /**
- * MUF Meeting Room — production-style Meet/Zoom clone wired to the live SDK.
+ * MUF Meeting Room — production-style group video call wired to the live SDK.
  *
  * Architecture:
  *   - `core` (transport singleton) is configured once at module load.
@@ -39,8 +39,8 @@ const manager = new MufCallManager();
 
 // ─── Configure the transport singleton once at module load ───────────────────
 
-const SIGNALING_HOST = import.meta.env.VITE_SIGNALING_HOST ?? 'ws://localhost:3001/ws';
-const API_BASE_URL   = import.meta.env.VITE_API_BASE_URL   ?? 'http://localhost:3001';
+const SIGNALING_HOST = import.meta.env.VITE_SIGNALING_HOST ?? 'wss://signal.your-domain.com/ws';
+const API_BASE_URL   = import.meta.env.VITE_API_BASE_URL   ?? 'https://signal.your-domain.com';
 const ORG_ID         = import.meta.env.VITE_MUF_ORG_ID;
 const ORG_KEY        = import.meta.env.VITE_MUF_ORG_KEY;
 
@@ -310,7 +310,7 @@ export default function App() {
         return () => document.body.removeEventListener('click', handler);
     }, []);
 
-    // Zoom-style auto-promote: when local user starts screen share, pin the local
+    // Auto-promote: when local user starts screen share, pin the local
     // tile so the screen content fills the main view; when stopped, restore default.
     // (Remote-side auto-promote needs a server broadcast — Phase 5 follow-up.)
     useEffect(() => {

@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
-    <!-- Socket.io classic script — exposes window.io that MufChatClient consumes.
-         If the chat-engine microservice isn't running, MufChatClient logs a warning
-         and the chat panel stays in "Disconnected" state without breaking the call. -->
+    <!-- Realtime chat transport client — exposes window.io that MufChatClient consumes.
+         If the chat service isn't reachable, MufChatClient logs a warning and the chat
+         panel stays in "Disconnected" state without breaking the call. -->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 </head>
 <body>

@@ -191,7 +191,7 @@ type SlotContext = {
 };
 ```
 
-The SDK never exposes raw mediasoup Producer / Consumer objects in
+The SDK never exposes raw media Producer / Consumer objects in
 `ctx` — those are internal. If a customer needs media-pipeline access,
 they're at L3 and use the manager's lower-level methods directly.
 
@@ -230,9 +230,9 @@ next major.
 These are intentionally **not** customer-extensible:
 
 - The video grid layout itself (1 / 2 / 3 / 4 broadcaster arrangement) —
-  fixed, mediasoup-driven
+  fixed, engine-driven
 - Mic / cam / flip / mirror / pause-LIVE controls — core call mechanics
-- Chat message rendering — controlled by the chat-engine for moderation
+- Chat message rendering — controlled by the chat service for moderation
   consistency. Customers can add a `viewport.bannerBottom` slot above
   chat for announcements; the chat itself is not theirable.
 - Permission recovery modal — platform-specific OS messaging, must be
@@ -269,7 +269,7 @@ review.
 ### Adding a Gift sheet (L2 — React)
 
 ```jsx
-import { useMufLive } from '@muf/live-sdk/react';
+import { useMufLive } from '@mufconnect/live-sdk/react';
 
 function StreamPage() {
   const manager = useMufLive({ roomId, token });

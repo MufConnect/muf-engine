@@ -15,9 +15,9 @@ A **room** is a single live-streaming session. It has:
 - A `max_broadcasters` cap (default 4 for live rooms).
 - A list of currently-connected peers.
 
-Rooms live in memory + a Valkey cache. They're created when the first
-host connects (lazy creation if no `/create_room` was called) and
-destroyed when the last broadcaster leaves.
+Rooms are held in a fast in-memory store. They're created when the
+first host connects (lazy creation if no `/create_room` was called)
+and destroyed when the last broadcaster leaves.
 
 ## Peer
 
@@ -108,10 +108,10 @@ In tenant-aware mode, the customer's backend mints these against the
 shared `JWT_SECRET` after authenticating their user via their own
 auth system. In standalone mode, you mint directly.
 
-The signaling-server NEVER trusts a client-supplied display_name,
+The signaling service NEVER trusts a client-supplied display_name,
 role, or peer_id — those flow exclusively through the JWT, so the
-chat-engine + recording layer can trust the values without
-re-asking the client.
+chat and recording layers can trust the values without re-asking the
+client.
 
 ## Slot system
 
@@ -158,9 +158,9 @@ live screens are CSS-toggled based on state.
 
 - **A user account.** MUF Engine has no user model. Your backend's
   user model is the source of truth; you put display_name in the JWT.
-- **A persistent chat history.** Messages are written to a Valkey
-  Stream with a 24-hour TTL by default. Persistent chat (Module B —
-  1v1) is a separate code path.
-- **A recording library.** Recordings are written to your R2 bucket
-  with the customer's credentials. The signaling-server doesn't
-  track them after upload — your app does.
+- **A persistent chat history.** Messages are written to a real-time
+  message stream with a 24-hour TTL by default. Persistent chat
+  (Module B — 1v1) is a separate code path.
+- **A recording library.** Recordings are written to your own object
+  storage bucket with the customer's credentials. The platform
+  doesn't track them after upload — your backend does.

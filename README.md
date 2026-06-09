@@ -12,7 +12,7 @@ The engine source code lives in a private repository. This repo gives you everyt
 
 - **Quickstart**: [docs.mufconnect.com/quickstart](https://docs.mufconnect.com/quickstart/) — host + viewer running in 10 minutes.
 - **Sample integration**: [examples/sample-integration/](https://github.com/MufConnect/muf-engine/blob/main/examples/sample-integration) — minimal full-stack app showing token-mint → broadcast → viewer end to end.
-- **Self-hosting**: [docs.mufconnect.com/guides/self-hosting](https://docs.mufconnect.com/guides/self-hosting/) — deploy on your own VPS. Engine source available via private-repo invite after signing a license agreement.
+- **Self-hosting**: see the [Quickstart](https://docs.mufconnect.com/quickstart/) — deploy on your own VPS via Docker. Engine source available via private-repo invite after signing a license agreement.
 
 ---
 

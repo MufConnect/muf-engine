@@ -8,7 +8,7 @@
 // a context provider; for the sample we keep it on local state.
 
 import { useState, useRef } from 'react';
-import { MufLiveManager, LiveEvent } from '@muf/live-sdk';
+import { MufLiveManager, LiveEvent } from '@mufconnect/live-sdk';
 
 interface HostTokenResponse {
     token:  string;
@@ -67,7 +67,7 @@ export function HostStream() {
             await manager.preloadCamera();
             // NOTE: this sample uses the legacy create_room path; for the
             // full standalone flow that injects pre-minted tokens, see
-            // the comments in @muf/live-sdk's setTokenProvider docs.
+            // the comments in @mufconnect/live-sdk's setTokenProvider docs.
             await manager.startBroadcast({
                 title:    `${displayName}'s sample stream`,
                 category: 'demo',

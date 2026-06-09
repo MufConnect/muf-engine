@@ -6,7 +6,7 @@
 // 5. Render incoming video + chat.
 
 import { useState, useRef, useEffect } from 'react';
-import { MufLiveManager, LiveEvent } from '@muf/live-sdk';
+import { MufLiveManager, LiveEvent } from '@mufconnect/live-sdk';
 
 interface ViewerTokenResponse { token: string }
 interface ChatMessage          { from: string; displayName?: string; text: string; ts: number }
@@ -40,9 +40,9 @@ export function ViewerStream({ roomId, hostPeerId }: { roomId: string; hostPeerI
             await tokenRes.json() as ViewerTokenResponse;
 
             // For this sample we let MufLiveManager fetch its own token
-            // via the SDK's default /viewer-token call (signaling-server
-            // provides this endpoint). Backends that REPLACE the SDK's
-            // token flow with their own would inject via setTokenProvider.
+            // via the SDK's default /viewer-token call (the signaling
+            // service provides this endpoint). Backends that REPLACE the
+            // SDK's token flow with their own would inject via setTokenProvider.
             const manager = new MufLiveManager({ displayName: displayName.trim() });
             managerRef.current = manager;
 
