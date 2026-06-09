@@ -40,45 +40,44 @@ const manager = new MufCallManager();
 // ─── Configure the transport singleton once at module load ───────────────────
 
 const SIGNALING_HOST = import.meta.env.VITE_SIGNALING_HOST ?? 'wss://signal.your-domain.com/ws';
-const API_BASE_URL   = import.meta.env.VITE_API_BASE_URL   ?? 'https://signal.your-domain.com';
-const ORG_ID         = import.meta.env.VITE_MUF_ORG_ID;
-const ORG_KEY        = import.meta.env.VITE_MUF_ORG_KEY;
+// Your backend's token-mint endpoint. The browser NEVER holds the org key —
+// it only ever talks to your server, which signs a short-lived room token.
+// Point this at the sample token backend (examples/sample-integration/backend),
+// which exposes POST /api/host-token. See that example for the server code.
+const TOKEN_BACKEND        = import.meta.env.VITE_TOKEN_BACKEND        ?? '/api/host-token';
+const VIEWER_TOKEN_BACKEND = import.meta.env.VITE_VIEWER_TOKEN_BACKEND ?? '/api/viewer-token';
 
-core.configure({ signalingHost: SIGNALING_HOST, apiBaseUrl: API_BASE_URL });
+core.configure({ signalingHost: SIGNALING_HOST });
 
 // The token provider is registered once at module load. App.tsx writes the
-// host's typed-in identity here just before calling manager.startHost() so
-// /create_room embeds it in the host's JWT (the same way /viewer-token does
-// for guests). Real customer integrations would pass identity from their
-// authenticated user record server-side and never use this UI input.
+// host's typed-in identity here just before calling manager.startHost().
+// SECURITY: a real integration authenticates the user on YOUR backend and
+// derives identity from your trusted user record — never trust the browser
+// for identity in production. The org key stays server-side; the browser
+// only ever receives a short-lived room token.
 const pendingHostIdentity: { displayName: string; avatarUrl: string } = { displayName: '', avatarUrl: '' };
 
-if (ORG_ID && ORG_KEY) {
-    core.setTokenProvider(async (opts: { isPublic?: boolean; maxPeers?: number }) => {
-        const body: Record<string, unknown> = { public: opts.isPublic ?? false };
-        if (opts.maxPeers !== undefined) body.maxPeers = opts.maxPeers;
-        if (pendingHostIdentity.displayName) body.displayName = pendingHostIdentity.displayName;
-        if (pendingHostIdentity.avatarUrl)   body.avatarUrl   = pendingHostIdentity.avatarUrl;
-        const r = await fetch(`${API_BASE_URL}/create_room`, {
-            method:  'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-org-id':     ORG_ID,
-                'x-org-key':    ORG_KEY,
-            },
-            body: JSON.stringify(body),
-        });
-        if (!r.ok) {
-            const text = await r.text().catch(() => '');
-            throw new Error(`create_room failed: HTTP ${r.status} ${text}`);
-        }
-        const data = await r.json();
-        return { roomId: data.room_id, token: data.token, hostSecret: data.host_secret };
+core.setTokenProvider(async (opts: { isPublic?: boolean; maxPeers?: number }) => {
+    const body: Record<string, unknown> = { public: opts.isPublic ?? false };
+    if (opts.maxPeers !== undefined) body.maxPeers = opts.maxPeers;
+    // Demo only: identity is passed from the UI input. In production your
+    // backend pulls it from the authenticated session, not the request body.
+    if (pendingHostIdentity.displayName) body.displayName = pendingHostIdentity.displayName;
+    if (pendingHostIdentity.avatarUrl)   body.avatarUrl   = pendingHostIdentity.avatarUrl;
+    const r = await fetch(TOKEN_BACKEND, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(body),
     });
-} else {
-    // eslint-disable-next-line no-console
-    console.warn('VITE_MUF_ORG_ID / VITE_MUF_ORG_KEY not set in .env.local — create_room will fail in production-mode signaling.');
-}
+    if (!r.ok) {
+        const text = await r.text().catch(() => '');
+        throw new Error(`token mint failed: HTTP ${r.status} ${text}`);
+    }
+    const data = await r.json();
+    // Only the room token + ids reach the browser — never the org key or any
+    // host secret. The backend keeps those server-side.
+    return { roomId: data.roomId ?? data.room_id, token: data.token, peerId: data.peerId };
+});
 
 // ─── Types & helpers ─────────────────────────────────────────────────────────
 
@@ -344,9 +343,12 @@ export default function App() {
             const url    = new URL(trimmed);
             const roomId = url.searchParams.get('room');
             if (!roomId) throw new Error('invite link missing ?room=');
-            const tokenResp = await fetch(`${API_BASE_URL}/viewer-token/${roomId}`, {
-                method:  'GET',
-                headers: ORG_ID && ORG_KEY ? { 'x-org-id': ORG_ID, 'x-org-key': ORG_KEY } : {},
+            // Mint the viewer token via YOUR backend — the org key stays
+            // server-side; the browser only receives the short-lived token.
+            const tokenResp = await fetch(VIEWER_TOKEN_BACKEND, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ roomId }),
             });
             if (!tokenResp.ok) {
                 const text = await tokenResp.text().catch(() => '');
@@ -367,15 +369,14 @@ export default function App() {
             localStorage.setItem(IDENTITY_KEY, JSON.stringify({ displayName, avatarUrl }));
         } catch { /* quota / private mode — non-fatal */ }
 
-        const url = new URL(`${API_BASE_URL}/viewer-token/${roomId}`);
-        if (displayName) url.searchParams.set('displayName', displayName);
-        if (avatarUrl)   url.searchParams.set('avatarUrl',   avatarUrl);
-
         let viewerToken: string;
         try {
-            const resp = await fetch(url, {
-                method:  'GET',
-                headers: ORG_ID && ORG_KEY ? { 'x-org-id': ORG_ID, 'x-org-key': ORG_KEY } : {},
+            // Mint via YOUR backend (org key server-side). Demo passes identity
+            // from the UI; production derives it from the authenticated session.
+            const resp = await fetch(VIEWER_TOKEN_BACKEND, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ roomId, displayName, avatarUrl }),
             });
             if (!resp.ok) {
                 const text = await resp.text().catch(() => '');

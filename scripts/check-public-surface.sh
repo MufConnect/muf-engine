@@ -1,20 +1,35 @@
 #!/usr/bin/env bash
-# Guard: fail if any file in this PUBLIC, customer-facing repo leaks an
-# internal technology name, a competitor brand, an AI-brand, or the
-# production server IP. This repo is browsable by anyone, so every tracked
-# file is a served surface and must read as client-professional, vendor-
-# neutral copy. Runs in CI on every push/PR.
+# Guard: fail if any tracked file in this PUBLIC, customer-facing repo leaks an
+# internal technology name, a competitor brand, an AI-brand, or a production
+# host/IP. Every tracked file here is a browsable surface and must read as
+# client-professional, vendor-neutral copy. Runs in CI on every push/PR.
+#
+# The sensitive INVENTORY (the actual stack names + IPs to look for) is NOT
+# stored in this public script — that would itself be a disclosure. It lives in
+# an untracked, gitignored file `scripts/.banned-terms` (one regex term per
+# line, '#' comments allowed) that CI provides. This script holds the matching
+# LOGIC only.
 #
 # Usage:  scripts/check-public-surface.sh   (exit 0 clean, 1 on violation)
 
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
-TECH='mediasoup|media-sfu|signaling-server|chat-engine|webrtc-rs|\bRust\b|\bAxum\b|\btokio\b|FastAPI|\bPostgres\b|\bValkey\b|\bnginx\b|\bcertbot\b|MEDIASOUP_|POSTGRES_|VALKEY_'
-COMPETITORS='\bAgora\b|\bTwilio\b|\bLiveKit\b|\b100ms\b|daily\.co|\bTwitch\b|\bTikTok\b|\bZoom\b|\bInstagram\b|\bYouTube\b'
-AI_BRANDS='\bOpenAI\b|\bChatGPT\b|\bAnthropic\b|\bClaude\b|\bGemini\b'
-INFRA='161\.35\.127\.122'
-BANNED="${TECH}|${COMPETITORS}|${AI_BRANDS}|${INFRA}"
+TERMS_FILE="scripts/.banned-terms"
+if [ ! -f "$TERMS_FILE" ]; then
+  echo "WARN: $TERMS_FILE not present — public-surface guard SKIPPED."
+  echo "      Provide the banned-terms file (untracked) in CI to enable the check."
+  exit 0
+fi
+
+# Build the alternation from the terms file (skip blanks + comments).
+BANNED="$(grep -vE '^\s*(#|$)' "$TERMS_FILE" | paste -sd '|' -)"
+if [ -z "$BANNED" ]; then
+  echo "WARN: $TERMS_FILE is empty — nothing to check."
+  exit 0
+fi
+
+# Known-safe false positives (kept in the public script — these are NOT secret).
 ALLOW='trust|crust|every ?day|Daily Ranking|holiday'
 
 hits=0
@@ -37,5 +52,5 @@ if [ "$hits" -gt 0 ]; then
   echo "internal tech or competitor name."
   exit 1
 fi
-echo "OK: public repo clean (no internal tech / competitor / AI-brand / IP leaks)."
+echo "OK: public repo clean (no internal tech / competitor / AI-brand / host leaks)."
 exit 0

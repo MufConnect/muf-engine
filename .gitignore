@@ -2,7 +2,12 @@ node_modules/
 dist/
 .env
 .env.*
+!.env.example
 *.log
 .vite/
 .astro/
 .DS_Store
+
+# Public-surface guard inventory — the actual stack names/IPs to scan for.
+# Kept out of the public repo so the guard doesn't itself disclose them.
+scripts/.banned-terms
