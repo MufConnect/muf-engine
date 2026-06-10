@@ -1,0 +1,34 @@
+name: Public surface guard
+
+# Fails the build if any tracked file in this public, customer-facing repo
+# leaks an internal technology name, a competitor brand, an AI-brand, or the
+# production server IP. Keeps the public surface client-professional.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-surface-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: No tech/competitor leaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Materialize banned-terms inventory
+        env:
+          BANNED_TERMS: ${{ secrets.BANNED_TERMS }}
+        run: |
+          if [ -z "$BANNED_TERMS" ]; then
+            echo "::error::BANNED_TERMS secret is not set — public-surface guard cannot run. Add it in repo Settings > Secrets."
+            exit 1
+          fi
+          printf '%s\n' "$BANNED_TERMS" > scripts/.banned-terms
+      - run: bash scripts/check-public-surface.sh

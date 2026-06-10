@@ -1,0 +1,28 @@
+{
+  "name": "muf-sample-backend",
+  "version": "0.1.0",
+  "description": "Token-minting backend for the MUF Engine sample integration",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev":   "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "cors":               "^2.8.5",
+    "dotenv":             "^16.4.5",
+    "express":            "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "jsonwebtoken":       "^9.0.2",
+    "uuid":               "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/cors":         "^2.8.17",
+    "@types/express":      "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node":         "^22.0.0",
+    "tsx":                 "^4.19.0",
+    "typescript":          "^5.6.0"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target":            "ES2020",
+    "module":            "ESNext",
+    "moduleResolution":  "bundler",
+    "lib":               ["DOM", "DOM.Iterable", "ES2020"],
+    "jsx":               "react-jsx",
+    "strict":            true,
+    "skipLibCheck":      true,
+    "esModuleInterop":   true,
+    "allowImportingTsExtensions": false,
+    "noEmit":            true,
+    "isolatedModules":   true,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "noUnusedLocals":          true,
+    "noUnusedParameters":      true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "vite-env.d.ts"]
+}

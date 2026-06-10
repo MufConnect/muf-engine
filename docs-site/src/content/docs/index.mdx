@@ -1,0 +1,51 @@
+---
+title: MUF Engine Docs
+description: WebRTC live streaming SDK for the web — drop-in host / viewer / cohost flows.
+template: splash
+hero:
+  tagline: WebRTC live streaming SDK — host, viewer, and cohost flows in the browser. Self-hostable. Polished, best-in-class live UX out of the box.
+  actions:
+    - text: Quickstart (10 min)
+      link: /quickstart/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/MufConnect/muf-engine
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## What MUF Engine gives you
+
+<CardGrid stagger>
+  <Card title="Three integration depths" icon="puzzle">
+    **L1 — Prebuilt page.** Drop a script tag, get the full broadcaster.html / viewer.html. CSS variables for theming.
+
+    **L2 — Component library.** React / Web Components. Compose your own layout.
+
+    **L3 — Raw SDK.** `MufLiveManager` + `MufCore`. Build whatever you want.
+  </Card>
+  <Card title="One product, one pricing" icon="rocket">
+    Per-MAU SaaS. Same price across L1/L2/L3. No surprise tiers. Self-host on your own infra at the same rate, or use our managed service.
+  </Card>
+  <Card title="What's in the box" icon="laptop">
+    - Multi-host live streaming (up to 4 broadcasters per room)
+    - Per-host independent chat + viewer count
+    - 30-second cohost invitations (host invites viewer / viewer requests cohost)
+    - Recording to Cloudflare R2
+    - End-to-end TypeScript types
+  </Card>
+  <Card title="What MUF is" icon="information">
+    MUF is real-time media infrastructure — the building blocks for live video, not a finished consumer app. You build your product; we handle the streaming, signaling, and chat plumbing underneath.
+  </Card>
+</CardGrid>
+
+## Get started
+
+The fastest path:
+
+1. [Quickstart](/quickstart/) — host + viewer running in your browser in 10 minutes.
+2. [Concepts](/concepts/) — rooms, peers, broadcaster vs viewer, audience partitioning.
+3. [Token minting](/guides/token-minting/) — sign JWTs in your backend (Node / Python / Go examples).
+4. [Slot system](/guides/slot-system/) — plug your own widgets into the prebuilt UI.
