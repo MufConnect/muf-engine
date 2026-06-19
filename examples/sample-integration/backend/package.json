@@ -15,7 +15,7 @@
     "express":            "^4.21.0",
     "express-rate-limit": "^7.4.0",
     "jsonwebtoken":       "^9.0.2",
-    "uuid":               "^10.0.0"
+    "uuid":               "^14.0.0"
   },
   "devDependencies": {
     "@types/cors":         "^2.8.17",
